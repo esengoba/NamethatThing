@@ -15,34 +15,48 @@ public class Question {
 
         Question() throws IOException {
             this.getQuestion();
+            this.getAnswers();
         }
 
-        public String getQuestion() throws IOException {
-            // Read in the file from the text
+        public HashMap<String, String> getQuestion() throws IOException {
             /**
-             * Added by Josuel
-             * Randomly select a question from the list of questions retrieved from the file
+             * Create a map that maps every question to its correspoding value
              */
             ArrayList<String> questions = new ArrayList<>();
             ArrayList<String> questionID = new ArrayList<>();
+            HashMap<String, String> retMap = new HashMap<>();
             HashMap<String, ArrayList<String>> answers = new HashMap<>();
 
             getListOfQuestions(questions, questionID, answers);
             getListOfAnswers(answers);
 
+            for (int i = 0; i < questions.size(); i++){
+                retMap.put(questionID.get(i), questions.get(i));
+            }
+
+            /* This was a way to pick randomly a string from a list (NOW OLD CODE)
             Random rand = new Random();
-
             String ans = questions.get(rand.nextInt(questions.size() - 1));
+            */
 
-            return ans;
+            return retMap;
         }
 
     /**
-     * Added by Josuel
+     * Gets a map of answers. Each question's ID maps to a specific ArrayList
+     * of answers.
+     */
+    public HashMap<String, ArrayList<String>> getAnswers() throws IOException{
+        HashMap<String, ArrayList<String>> ans = new HashMap<>();
+        getListOfAnswers(ans);
+        return ans;
+    }
+
+    /**
      * This function reads from a file a list of questions from a specific category
      * and stores them in a list.
      */
-    void getListOfQuestions(ArrayList<String> questions, ArrayList<String> questionID, HashMap<String, ArrayList<String>> answers) throws IOException {
+    public void getListOfQuestions(ArrayList<String> questions, ArrayList<String> questionID, HashMap<String, ArrayList<String>> answers) throws IOException {
         ArrayList<String> temp = new ArrayList<>();
 
         boolean isOdd = true;
@@ -66,7 +80,7 @@ public class Question {
      * questionID
      */
 
-    void getListOfAnswers(HashMap<String, ArrayList<String>> ans) throws IOException {
+    public void getListOfAnswers(HashMap<String, ArrayList<String>> ans) throws IOException {
 
         int num = 1;
         String key = "";
@@ -77,7 +91,6 @@ public class Question {
                 temp = new ArrayList<>();
                 key = line;
             }else{
-                System.out.println(key);
                 temp.add(line);
                 ans.put(key, temp);
             }
