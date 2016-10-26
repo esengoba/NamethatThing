@@ -1,4 +1,4 @@
-/**
+        /**
          * Implement the countdown function
          * This is called when the the user clicks Ready
          */
